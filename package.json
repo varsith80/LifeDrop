@@ -1,0 +1,25 @@
+{
+  "name": "hemolink-platform",
+  "version": "1.0.0",
+  "description": "HemoLink — Blood Donation & Emergency Blood Availability Platform",
+  "private": true,
+  "scripts": {
+    "install:all": "npm --prefix backend install && npm --prefix mobile install && npm --prefix admin install",
+    "backend": "npm --prefix backend run dev",
+    "mobile": "npm --prefix mobile run dev",
+    "admin": "npm --prefix admin run dev",
+    "seed": "npm --prefix backend run seed",
+    "test:backend": "npm --prefix backend test"
+  },
+  "keywords": [
+    "blood-donation",
+    "emergency-matching",
+    "health-tech",
+    "mongodb",
+    "express",
+    "react",
+    "socket.io"
+  ],
+  "author": "HemoLink Team",
+  "license": "MIT"
+}

@@ -1,0 +1,57 @@
+version: '3.8'
+
+services:
+  mongodb:
+    image: mongo:7.0
+    container_name: hemolink-mongodb
+    restart: always
+    ports:
+      - "27017:27017"
+    environment:
+      MONGO_INITDB_DATABASE: hemolinkDB
+    volumes:
+      - mongo_data:/data/db
+
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: hemolink-backend
+    restart: always
+    ports:
+      - "5000:5000"
+    environment:
+      - PORT=5000
+      - MONGO_URI=mongodb://mongodb:27017/hemolinkDB
+      - JWT_SECRET=hemolink_super_secret_jwt_access_key_2026
+      - JWT_REFRESH_SECRET=hemolink_super_secret_jwt_refresh_key_2026
+      - NODE_ENV=production
+      - CLIENT_URL=http://localhost:5173
+      - ADMIN_URL=http://localhost:5174
+    depends_on:
+      - mongodb
+
+  mobile:
+    build:
+      context: ./mobile
+      dockerfile: Dockerfile
+    container_name: hemolink-mobile
+    restart: always
+    ports:
+      - "5173:80"
+    depends_on:
+      - backend
+
+  admin:
+    build:
+      context: ./admin
+      dockerfile: Dockerfile
+    container_name: hemolink-admin
+    restart: always
+    ports:
+      - "5174:80"
+    depends_on:
+      - backend
+
+volumes:
+  mongo_data:
