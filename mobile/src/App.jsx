@@ -31,6 +31,9 @@ import { BloodBankDashboard } from './screens/bloodBank/BloodBankDashboard';
 import { NotificationsScreen } from './screens/common/NotificationsScreen';
 import { ProfileScreen } from './screens/common/ProfileScreen';
 
+// Landing Page Suite
+import { LandingPage } from './components/LandingPage/LandingPage';
+
 const MainApp = () => {
   const { user, loading } = useAuth();
   const { liveAlert, clearAlert } = useSocket();
@@ -239,14 +242,44 @@ const MainApp = () => {
   );
 };
 
+const AppRoot = () => {
+  const { user } = useAuth();
+  const [viewMode, setViewMode] = useState(() => {
+    const params = new URLSearchParams(window.location.search);
+    return params.get('view') === 'mobile' ? 'MOBILE' : 'LANDING';
+  });
+
+  const handleLaunchAdmin = (token) => {
+    const adminUrl = token 
+      ? `http://localhost:5174?token=${encodeURIComponent(token)}` 
+      : 'http://localhost:5174';
+    window.open(adminUrl, '_blank');
+  };
+
+  if (viewMode === 'LANDING') {
+    return (
+      <LandingPage
+        onSwitchToMobile={() => setViewMode('MOBILE')}
+        onLaunchDashboard={() => setViewMode('MOBILE')}
+        onLaunchAdminPortal={handleLaunchAdmin}
+      />
+    );
+  }
+
+  return (
+    <MobileFrame onBackToLanding={() => setViewMode('LANDING')}>
+      <MainApp onBackToLanding={() => setViewMode('LANDING')} />
+    </MobileFrame>
+  );
+};
+
 export default function App() {
   return (
     <AuthProvider>
       <SocketProvider>
-        <MobileFrame>
-          <MainApp />
-        </MobileFrame>
+        <AppRoot />
       </SocketProvider>
     </AuthProvider>
   );
 }
+

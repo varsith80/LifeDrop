@@ -22,6 +22,19 @@ export default {
           card: '#ffffff',
           bg: '#f8fafc',
         },
+        forest: {
+          50: '#f0fdf4',
+          100: '#dcfce7',
+          200: '#bbf7d0',
+          300: '#86efac',
+          400: '#4ade80',
+          500: '#22c55e',
+          600: '#16a34a',
+          700: '#15803d',
+          800: '#115e3b',
+          900: '#0e3825', // Primary Dark Emerald
+          950: '#062416', // Darkest Pine Green
+        },
       },
     },
   },

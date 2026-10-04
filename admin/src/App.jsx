@@ -25,7 +25,15 @@ export default function App() {
 
   useEffect(() => {
     const checkAdmin = async () => {
-      const savedToken = localStorage.getItem('hemolink_admin_token');
+      const urlParams = new URLSearchParams(window.location.search);
+      const urlToken = urlParams.get('token');
+      if (urlToken) {
+        localStorage.setItem('hemolink_admin_token', urlToken);
+        setToken(urlToken);
+        window.history.replaceState({}, document.title, window.location.pathname);
+      }
+
+      const savedToken = urlToken || localStorage.getItem('hemolink_admin_token');
       if (savedToken) {
         adminApi.setToken(savedToken);
         try {
@@ -91,7 +99,7 @@ export default function App() {
             <div className="w-16 h-16 rounded-2xl bg-rose-600/20 border border-rose-500/30 flex items-center justify-center mx-auto mb-3 text-rose-500">
               <HeartHandshake className="w-9 h-9" />
             </div>
-            <h1 className="text-2xl font-black text-white tracking-tight">HemoLink Administrative Portal</h1>
+            <h1 className="text-2xl font-black text-white tracking-tight">LifeDrop Administrative Governance Portal</h1>
             <p className="text-xs text-slate-400 mt-1">
               Secure access for authorized clinical oversight and platform management.
             </p>

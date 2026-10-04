@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Smartphone, Monitor, Wifi, Battery, Signal } from 'lucide-react';
 import { useSocket } from '../context/SocketContext';
 
-export const MobileFrame = ({ children }) => {
+export const MobileFrame = ({ children, onBackToLanding }) => {
   const [isFrameEnabled, setIsFrameEnabled] = useState(true);
   const [currentTime, setCurrentTime] = useState('');
   const { connected } = useSocket();
@@ -24,8 +24,16 @@ export const MobileFrame = ({ children }) => {
       {/* Top Device / Viewport Toggle Toolbar */}
       <header className="hidden sm:flex items-center justify-between w-full max-w-4xl px-4 py-2 mb-4 bg-slate-800/80 backdrop-blur rounded-full border border-slate-700/60 shadow-lg text-xs">
         <div className="flex items-center gap-2 font-medium">
+          {onBackToLanding && (
+            <button
+              onClick={onBackToLanding}
+              className="px-3 py-1 rounded-full bg-emerald-900/80 hover:bg-emerald-800 text-emerald-200 border border-emerald-600/40 font-bold transition flex items-center gap-1.5 mr-1"
+            >
+              <span>← LifeDrop Website</span>
+            </button>
+          )}
           <span className="flex h-2.5 w-2.5 rounded-full bg-rose-500 animate-pulse" />
-          <span className="text-slate-300">HemoLink Mobile Experience</span>
+          <span className="text-slate-300">LifeDrop Mobile Experience</span>
           <span className="text-slate-500">|</span>
           <span className={connected ? 'text-emerald-400 flex items-center gap-1' : 'text-amber-400 flex items-center gap-1'}>
             <span className={`h-1.5 w-1.5 rounded-full ${connected ? 'bg-emerald-400' : 'bg-amber-400'}`} />
